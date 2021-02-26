@@ -5,9 +5,12 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static java.lang.System.exit;
 
 public class Arena {
     private Hero alfredo;
@@ -15,6 +18,7 @@ public class Arena {
     private int height;
     private List<Wall> walls;
     private List<Coin> coins;
+    private List<Monster> monsters;
 
     Arena(int width, int height){
         this.width = width;
@@ -22,6 +26,7 @@ public class Arena {
         alfredo = new Hero(10,10);
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
     }
 
     public void draw(TextGraphics graphics) throws IOException {
@@ -31,19 +36,25 @@ public class Arena {
         for(Coin coin : coins){
             coin.draw(graphics);
         }
+        for(Monster monster : monsters){
+            monster.draw(graphics);
+        }
         for(Wall wall : walls){
             wall.draw(graphics);
         }
     }
 
     public void moveHero(Position position){
-        if(canHeroMove(position)){
+        if(canMove(position)){
             alfredo.setPosition(position);
             retrieveCoins();
+            verifyMonsterCollision();
+            moveMonsters();
+            verifyMonsterCollision();
         }
     }
 
-    private boolean canHeroMove(Position position){
+    private boolean canMove(Position position){
         int x = position.getX();
         int y = position.getY();
         if(x>=0 && x<width && y>=0 && y<height){
@@ -57,11 +68,29 @@ public class Arena {
         return false;
     }
 
+    private void moveMonsters(){
+        for(Monster monster : monsters){
+            Position p = monster.move();
+            if(canMove(p)){
+                monster.setPosition(p);
+            }
+        }
+    }
+
     private void retrieveCoins(){
         for(Coin coin : coins){
             if(alfredo.getPosition().equals(coin.getPosition())){
                 coins.remove(coin);
                 break;
+            }
+        }
+    }
+
+    private void verifyMonsterCollision(){
+        for(Monster monster : monsters){
+            if(alfredo.getPosition().equals(monster.getPosition())){
+                System.out.println("Game over");
+                exit(0);
             }
         }
     }
@@ -86,6 +115,16 @@ public class Arena {
             coins.add(new Coin(random.nextInt(width-2)+1, random.nextInt(height-2)+1));
         }
         return coins;
+    }
+
+    private List<Monster> createMonsters(){
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        int nMonsters = random.nextInt(8)+1;
+        for(int i = 0; i < nMonsters; ++i){
+            monsters.add(new Monster(random.nextInt(width-2)+1, random.nextInt(height-2)+1));
+        }
+        return monsters;
     }
 
     public void processKey(KeyStroke key){

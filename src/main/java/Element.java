@@ -11,6 +11,10 @@ public abstract class Element {
 
     public abstract void draw(TextGraphics graphics) throws IOException;
 
+    public void setPosition(Position position){
+        this.position = position;
+    }
+
     public Position getPosition(){
         return this.position;
     }

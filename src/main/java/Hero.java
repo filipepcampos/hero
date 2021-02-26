@@ -18,10 +18,6 @@ public class Hero extends Element{
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
     }
 
-    public void setPosition(Position position){
-        this.position = position;
-    }
-
     public Position moveUp(){
         return new Position(position.getX(), position.getY()-1);
     }
