@@ -14,16 +14,20 @@ import static java.lang.System.exit;
 
 public class Arena {
     private Hero alfredo;
+    private StatusBar statusBar;
     private int width;
     private int height;
+    private boolean gameOver = false;
+    private boolean won = false;
     private List<Wall> walls;
     private List<Coin> coins;
     private List<Monster> monsters;
 
-    Arena(int width, int height){
+    Arena(int width, int height, int statusBarHeight){
         this.width = width;
         this.height = height;
-        alfredo = new Hero(10,10);
+        this.alfredo = new Hero(10,10);
+        this.statusBar = new StatusBar(0, height, width, statusBarHeight, this.alfredo.getHP());
         this.walls = createWalls();
         this.coins = createCoins();
         this.monsters = createMonsters();
@@ -42,10 +46,11 @@ public class Arena {
         for(Wall wall : walls){
             wall.draw(graphics);
         }
+        statusBar.draw(graphics);
     }
 
     public void moveHero(Position position){
-        if(canMove(position)){
+        if(canMove(position) && !gameOver && !won){
             alfredo.setPosition(position);
             retrieveCoins();
             verifyMonsterCollision();
@@ -81,6 +86,11 @@ public class Arena {
         for(Coin coin : coins){
             if(alfredo.getPosition().equals(coin.getPosition())){
                 coins.remove(coin);
+                this.statusBar.increaseNumCoins();
+                if(coins.size() == 0){
+                    won = true;
+                    statusBar.setWon(true);
+                }
                 break;
             }
         }
@@ -89,8 +99,14 @@ public class Arena {
     private void verifyMonsterCollision(){
         for(Monster monster : monsters){
             if(alfredo.getPosition().equals(monster.getPosition())){
-                System.out.println("Game over");
-                exit(0);
+                alfredo.loseHP();
+                if(alfredo.getHP() <= 0){
+                    gameOver = true;
+                    this.statusBar.setGameOver(true);
+                }
+                else{
+                    this.statusBar.setHP(alfredo.getHP());
+                }
             }
         }
     }

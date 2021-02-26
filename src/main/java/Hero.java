@@ -8,6 +8,8 @@ import com.googlecode.lanterna.screen.Screen;
 import java.io.IOException;
 
 public class Hero extends Element{
+    int hp = 5;
+
     Hero(int x, int y){
         super(x,y);
     }
@@ -16,6 +18,14 @@ public class Hero extends Element{
         graphics.setForegroundColor(TextColor.Factory.fromString("#00C5C6"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
+    }
+
+    public void loseHP(){
+        hp--;
+    }
+
+    public int getHP(){
+        return hp;
     }
 
     public Position moveUp(){

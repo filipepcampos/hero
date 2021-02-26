@@ -29,7 +29,7 @@ public class Game {
             //Configure Default Terminal Factory
             Font loadedFont = font.deriveFont(Font.PLAIN, 25);
             AWTTerminalFontConfiguration fontConfig = AWTTerminalFontConfiguration.newInstance(loadedFont);
-            TerminalSize terminalSize = new TerminalSize(40, 20);
+            TerminalSize terminalSize = new TerminalSize(40, 23);
             DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             defaultTerminalFactory.setForceAWTOverSwing(true);
             defaultTerminalFactory.setTerminalEmulatorFontConfiguration(fontConfig);
@@ -42,7 +42,7 @@ public class Game {
         } catch (IOException | FontFormatException e){
             e.printStackTrace();
         }
-        arena = new Arena(40, 20);
+        arena = new Arena(40, 20, 3);
     }
 
     public void run(){
