@@ -50,12 +50,16 @@ public class Game {
         screen.refresh();
     }
 
+    private void moveHero(Position position){
+        alfredo.setPosition(position);
+    }
+
     private boolean processKey(KeyStroke key) throws IOException{
         switch (key.getKeyType()){
-            case ArrowUp: alfredo.moveUp(); break;
-            case ArrowDown: alfredo.moveDown(); break;
-            case ArrowLeft: alfredo.moveLeft(); break;
-            case ArrowRight: alfredo.moveRight(); break;
+            case ArrowUp: moveHero(alfredo.moveUp()); break;
+            case ArrowDown: moveHero(alfredo.moveDown()); break;
+            case ArrowLeft: moveHero(alfredo.moveLeft()); break;
+            case ArrowRight: moveHero(alfredo.moveRight()); break;
             case Character:
                 if(key.getCharacter() == 'q'){
                     screen.close();
