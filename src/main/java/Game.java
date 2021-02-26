@@ -13,7 +13,7 @@ import static com.googlecode.lanterna.input.KeyType.*;
 
 public class Game {
     private Screen screen;
-    private Hero alfredo;
+    private Arena arena;
 
     Game(){
         try {
@@ -27,7 +27,7 @@ public class Game {
         } catch (IOException e){
             e.printStackTrace();
         }
-        alfredo = new Hero(10,10);
+        arena = new Arena(40, 20);
     }
 
     public void run(){
@@ -35,9 +35,13 @@ public class Game {
             while(true){
                 this.draw();
                 KeyStroke key = screen.readInput();
-                if(!processKey(key)){
+                if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
+                    screen.close();
+                }
+                if(key.getKeyType() == EOF){
                     break;
                 }
+                processKey(key);
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -46,27 +50,11 @@ public class Game {
 
     private void draw() throws IOException{
         screen.clear();
-        alfredo.draw(screen);
+        arena.draw(screen);
         screen.refresh();
     }
 
-    private void moveHero(Position position){
-        alfredo.setPosition(position);
-    }
-
-    private boolean processKey(KeyStroke key) throws IOException{
-        switch (key.getKeyType()){
-            case ArrowUp: moveHero(alfredo.moveUp()); break;
-            case ArrowDown: moveHero(alfredo.moveDown()); break;
-            case ArrowLeft: moveHero(alfredo.moveLeft()); break;
-            case ArrowRight: moveHero(alfredo.moveRight()); break;
-            case Character:
-                if(key.getCharacter() == 'q'){
-                    screen.close();
-                }
-                break;
-            case EOF: return false;
-        }
-        return true;
+    private void processKey(KeyStroke key) throws IOException{
+        arena.processKey(key);
     }
 }
