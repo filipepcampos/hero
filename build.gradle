@@ -6,6 +6,10 @@ plugins {
 group 'com.filipepcampos.hero'
 version '1.0-SNAPSHOT'
 
+application{
+    mainClass.set("Application")
+}
+
 repositories {
     mavenCentral()
 }
@@ -21,6 +25,3 @@ test {
     useJUnitPlatform()
 }
 
-application{
-    mainClass.set("Application")
-}
