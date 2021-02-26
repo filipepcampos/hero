@@ -1,3 +1,7 @@
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 
@@ -14,8 +18,10 @@ public class Arena {
         alfredo = new Hero(10,10);
     }
 
-    public void draw(Screen screen) throws IOException {
-        alfredo.draw(screen);
+    public void draw(TextGraphics graphics) throws IOException {
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#ECECEC"));
+        graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
+        alfredo.draw(graphics);
     }
 
     public void moveHero(Position position){
