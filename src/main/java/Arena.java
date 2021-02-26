@@ -7,24 +7,30 @@ import com.googlecode.lanterna.input.KeyStroke;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     private Hero alfredo;
     private int width;
     private int height;
     private List<Wall> walls;
+    private List<Coin> coins;
 
     Arena(int width, int height){
         this.width = width;
         this.height = height;
         alfredo = new Hero(10,10);
         this.walls = createWalls();
+        this.coins = createCoins();
     }
 
     public void draw(TextGraphics graphics) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#ECECEC"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
         alfredo.draw(graphics);
+        for(Coin coin : coins){
+            coin.draw(graphics);
+        }
         for(Wall wall : walls){
             wall.draw(graphics);
         }
@@ -33,6 +39,7 @@ public class Arena {
     public void moveHero(Position position){
         if(canHeroMove(position)){
             alfredo.setPosition(position);
+            retrieveCoins();
         }
     }
 
@@ -50,6 +57,15 @@ public class Arena {
         return false;
     }
 
+    private void retrieveCoins(){
+        for(Coin coin : coins){
+            if(alfredo.getPosition().equals(coin.getPosition())){
+                coins.remove(coin);
+                break;
+            }
+        }
+    }
+
     private List<Wall> createWalls(){
         List<Wall> walls = new ArrayList<>();
         for(int i = 0; i < width; ++i){
@@ -61,6 +77,15 @@ public class Arena {
             walls.add(new Wall(width-1, i));
         }
         return walls;
+    }
+
+    private List<Coin> createCoins(){
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for(int i = 0; i < 5; ++i){
+            coins.add(new Coin(random.nextInt(width-2)+1, random.nextInt(height-2)+1));
+        }
+        return coins;
     }
 
     public void processKey(KeyStroke key){
