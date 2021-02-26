@@ -13,8 +13,7 @@ import static com.googlecode.lanterna.input.KeyType.*;
 
 public class Game {
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
+    private Hero alfredo;
 
     Game(){
         try {
@@ -28,6 +27,7 @@ public class Game {
         } catch (IOException e){
             e.printStackTrace();
         }
+        alfredo = new Hero(10,10);
     }
 
     public void run(){
@@ -46,16 +46,16 @@ public class Game {
 
     private void draw() throws IOException{
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        alfredo.draw(screen);
         screen.refresh();
     }
 
     private boolean processKey(KeyStroke key) throws IOException{
         switch (key.getKeyType()){
-            case ArrowUp: y -= 1; break;
-            case ArrowDown: y += 1; break;
-            case ArrowLeft: x -= 1; break;
-            case ArrowRight: x += 1; break;
+            case ArrowUp: alfredo.moveUp(); break;
+            case ArrowDown: alfredo.moveDown(); break;
+            case ArrowLeft: alfredo.moveLeft(); break;
+            case ArrowRight: alfredo.moveRight(); break;
             case Character:
                 if(key.getCharacter() == 'q'){
                     screen.close();
