@@ -7,9 +7,9 @@ import java.io.IOException;
 import game.util.Position;
 
 public abstract class Element {
-    Position position;
+    protected Position position;
 
-    Element(int x, int y){
+    public Element(int x, int y){
         position = new Position(x,y);
     }
 

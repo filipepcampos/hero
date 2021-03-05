@@ -5,10 +5,13 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import game.elements.Coin;
 import game.elements.Hero;
-import game.elements.Monster;
+import game.elements.monsters.Crawler;
+import game.elements.monsters.Monster;
 import game.elements.Wall;
+import game.elements.monsters.Zombie;
 import game.userInterface.InfoBar;
 import game.util.Position;
 
@@ -18,6 +21,12 @@ import java.util.List;
 import java.util.Random;
 
 public class Arena {
+    public enum gameAction{
+        CONTINUE,
+        QUIT,
+        RESTART
+    }
+
     private Hero hero;
     private InfoBar infoBar;
     private int width;
@@ -138,22 +147,41 @@ public class Arena {
         return coins;
     }
 
+    private Monster createMonster(Random random){
+        int x = random.nextInt(width-2)+1;
+        int y = random.nextInt(height-2)+1;
+        switch(random.nextInt(2)){
+            case 0: return new Zombie(x,y);
+            case 1: return new Crawler(x,y);
+        }
+        return new Zombie(random.nextInt(width-2)+1, random.nextInt(height-2)+1);
+    }
+
     private List<Monster> createMonsters(){
         Random random = new Random();
         ArrayList<Monster> monsters = new ArrayList<>();
         int nMonsters = random.nextInt(8)+1;
         for(int i = 0; i < nMonsters; ++i){
-            monsters.add(new Monster(random.nextInt(width-2)+1, random.nextInt(height-2)+1));
+            monsters.add(createMonster(random));
         }
         return monsters;
     }
 
-    public void processKey(KeyStroke key){
+    public gameAction processKey(KeyStroke key){
         switch (key.getKeyType()){
             case ArrowUp: moveHero(hero.moveUp()); break;
             case ArrowDown: moveHero(hero.moveDown()); break;
             case ArrowLeft: moveHero(hero.moveLeft()); break;
             case ArrowRight: moveHero(hero.moveRight()); break;
+            case Character:
+                if(key.getCharacter() == 'q'){
+                    return gameAction.QUIT;
+                }
+                if(key.getCharacter() == 'r' && (won || gameOver)){
+                    return gameAction.RESTART;
+                }
+                break;
         }
+        return gameAction.CONTINUE;
     }
 }

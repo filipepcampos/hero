@@ -19,7 +19,7 @@ public class Game {
     private Screen screen;
     private Arena arena;
 
-    Game(){
+    public Game(){
         try {
             // ---- Copy pasta from Slack ----
             // Load Font
@@ -49,16 +49,19 @@ public class Game {
 
     public void run(){
         try {
-            while(true){
+            boolean quit = false;
+            while(!quit){
                 this.draw();
                 KeyStroke key = screen.readInput();
-                if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
-                    screen.close();
-                }
                 if(key.getKeyType() == EOF){
                     break;
                 }
-                processKey(key);
+                Arena.gameAction action = processKey(key);
+                switch (action){
+                    case QUIT: screen.close(); quit = true;
+                    case RESTART: this.arena = new Arena(40, 20, 3); break;
+                    case CONTINUE: continue;
+                }
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -71,7 +74,7 @@ public class Game {
         screen.refresh();
     }
 
-    private void processKey(KeyStroke key) throws IOException{
-        arena.processKey(key);
+    private Arena.gameAction processKey(KeyStroke key) throws IOException{
+        return arena.processKey(key);
     }
 }

@@ -1,4 +1,4 @@
-package game.elements;
+package game.elements.monsters;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
@@ -7,12 +7,19 @@ import game.util.Position;
 
 import java.util.Random;
 
-public class Monster extends Element {
-    public Monster(int x, int y){
+public class Zombie extends  Monster{
+    public Zombie(int x, int y){
         super(x,y);
     }
 
-    public Position move(){
+    @Override
+    public void draw(TextGraphics graphics) {
+        graphics.setForegroundColor(TextColor.Factory.fromString("#03AC13"));
+        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "Z");
+    }
+
+    @Override
+    public Position move() {
         Random random = new Random();
         switch(random.nextInt(4)){
             case 0: return new Position(position.getX()-1, position.getY());
@@ -20,12 +27,6 @@ public class Monster extends Element {
             case 2: return new Position(position.getX(), position.getY()-1);
             case 3: return new Position(position.getX(), position.getY()+1);
         }
-        return position;
-    }
-
-    public void draw(TextGraphics graphics){
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FF0800"));
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "#");
-
+        return null;
     }
 }
