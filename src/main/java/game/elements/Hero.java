@@ -1,16 +1,17 @@
+package game.elements;
+
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
+import game.util.Position;
 
 import java.io.IOException;
 
 public class Hero extends Element{
     int hp = 5;
 
-    Hero(int x, int y){
+    public Hero(int x, int y){
         super(x,y);
     }
 

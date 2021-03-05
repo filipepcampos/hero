@@ -1,20 +1,25 @@
+package game;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import game.elements.Coin;
+import game.elements.Hero;
+import game.elements.Monster;
+import game.elements.Wall;
+import game.userInterface.InfoBar;
+import game.util.Position;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.System.exit;
-
 public class Arena {
-    private Hero alfredo;
-    private StatusBar statusBar;
+    private Hero hero;
+    private InfoBar infoBar;
     private int width;
     private int height;
     private boolean gameOver = false;
@@ -26,8 +31,8 @@ public class Arena {
     Arena(int width, int height, int statusBarHeight){
         this.width = width;
         this.height = height;
-        this.alfredo = new Hero(10,10);
-        this.statusBar = new StatusBar(0, height, width, statusBarHeight, this.alfredo.getHP());
+        this.hero = new Hero(10,10);
+        this.infoBar = new InfoBar(0, height, width, statusBarHeight, this.hero.getHP());
         this.walls = createWalls();
         this.coins = createCoins();
         this.monsters = createMonsters();
@@ -36,7 +41,7 @@ public class Arena {
     public void draw(TextGraphics graphics) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#ECECEC"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
-        alfredo.draw(graphics);
+        hero.draw(graphics);
         for(Coin coin : coins){
             coin.draw(graphics);
         }
@@ -46,12 +51,12 @@ public class Arena {
         for(Wall wall : walls){
             wall.draw(graphics);
         }
-        statusBar.draw(graphics);
+        infoBar.draw(graphics);
     }
 
     public void moveHero(Position position){
         if(canMove(position) && !gameOver && !won){
-            alfredo.setPosition(position);
+            hero.setPosition(position);
             retrieveCoins();
             verifyMonsterCollision();
             moveMonsters();
@@ -84,12 +89,12 @@ public class Arena {
 
     private void retrieveCoins(){
         for(Coin coin : coins){
-            if(alfredo.getPosition().equals(coin.getPosition())){
+            if(hero.getPosition().equals(coin.getPosition())){
                 coins.remove(coin);
-                this.statusBar.increaseNumCoins();
+                this.infoBar.increaseNumCoins();
                 if(coins.size() == 0){
                     won = true;
-                    statusBar.setWon(true);
+                    infoBar.setWon(true);
                 }
                 break;
             }
@@ -98,14 +103,14 @@ public class Arena {
 
     private void verifyMonsterCollision(){
         for(Monster monster : monsters){
-            if(alfredo.getPosition().equals(monster.getPosition())){
-                alfredo.loseHP();
-                if(alfredo.getHP() <= 0){
+            if(hero.getPosition().equals(monster.getPosition())){
+                hero.loseHP();
+                if(hero.getHP() <= 0){
                     gameOver = true;
-                    this.statusBar.setGameOver(true);
+                    this.infoBar.setGameOver(true);
                 }
                 else{
-                    this.statusBar.setHP(alfredo.getHP());
+                    this.infoBar.setHP(hero.getHP());
                 }
             }
         }
@@ -145,10 +150,10 @@ public class Arena {
 
     public void processKey(KeyStroke key){
         switch (key.getKeyType()){
-            case ArrowUp: moveHero(alfredo.moveUp()); break;
-            case ArrowDown: moveHero(alfredo.moveDown()); break;
-            case ArrowLeft: moveHero(alfredo.moveLeft()); break;
-            case ArrowRight: moveHero(alfredo.moveRight()); break;
+            case ArrowUp: moveHero(hero.moveUp()); break;
+            case ArrowDown: moveHero(hero.moveDown()); break;
+            case ArrowLeft: moveHero(hero.moveLeft()); break;
+            case ArrowRight: moveHero(hero.moveRight()); break;
         }
     }
 }

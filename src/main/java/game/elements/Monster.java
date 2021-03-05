@@ -1,12 +1,14 @@
-import com.googlecode.lanterna.SGR;
+package game.elements;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import game.util.Position;
 
 import java.util.Random;
 
 public class Monster extends Element {
-    Monster(int x, int y){
+    public Monster(int x, int y){
         super(x,y);
     }
 

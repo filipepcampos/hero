@@ -1,6 +1,10 @@
+package game.elements;
+
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.io.IOException;
+
+import game.util.Position;
 
 public abstract class Element {
     Position position;
