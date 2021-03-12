@@ -3,7 +3,8 @@ package game.userInterface;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
+import game.util.Position;
 
 import java.io.IOException;
 
@@ -38,9 +39,9 @@ public class InfoBar extends InterfaceElement {
     }
 
     @Override
-    public void draw(TextGraphics graphics) throws IOException {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#333333"));
-        graphics.fillRectangle(new TerminalPosition(x,y), new TerminalSize(width, height), ' ');
+    public void draw(GenericTextGraphics graphics) throws IOException {
+        graphics.setBackgroundColor("#333333");
+        graphics.fillRectangle(new Position(x,y), width, height);
 
         coinCounter.draw(graphics);
 

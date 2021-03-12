@@ -1,8 +1,6 @@
 package game.elements.monsters;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.util.Random;
@@ -13,9 +11,9 @@ public class Zombie extends  Monster{
     }
 
     @Override
-    public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#03AC13"));
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "Z");
+    public void draw(GenericTextGraphics graphics) {
+        graphics.setForegroundColor("#03AC13");
+        graphics.putString(position, "Z");
     }
 
     @Override

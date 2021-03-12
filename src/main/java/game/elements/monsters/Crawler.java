@@ -1,8 +1,6 @@
 package game.elements.monsters;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.util.Random;
@@ -24,9 +22,9 @@ public class Crawler extends Monster{
     }
 
     @Override
-    public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FF0000"));
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), image);
+    public void draw(GenericTextGraphics graphics) {
+        graphics.setForegroundColor("#FF0000");
+        graphics.putString(position, image);
     }
 
     @Override

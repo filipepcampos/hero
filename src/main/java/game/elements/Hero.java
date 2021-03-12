@@ -1,9 +1,6 @@
 package game.elements;
 
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.io.IOException;
@@ -15,10 +12,10 @@ public class Hero extends Element{
         super(x,y);
     }
 
-    public void draw(TextGraphics graphics) throws IOException{
-        graphics.setForegroundColor(TextColor.Factory.fromString("#00C5C6"));
-        graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
+    public void draw(GenericTextGraphics graphics) throws IOException{
+        graphics.setForegroundColor("#00C5C6");
+        graphics.enableModifiers("BOLD");
+        graphics.putString(position, "X");
     }
 
     public void loseHP(){

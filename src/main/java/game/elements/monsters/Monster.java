@@ -1,7 +1,7 @@
 package game.elements.monsters;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
 import game.elements.Element;
+import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 public abstract class Monster extends Element {
@@ -11,5 +11,5 @@ public abstract class Monster extends Element {
 
     public abstract Position move();
 
-    public abstract void draw(TextGraphics graphics);
+    public abstract void draw(GenericTextGraphics graphics);
 }

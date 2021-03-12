@@ -12,6 +12,7 @@ import game.elements.monsters.Crawler;
 import game.elements.monsters.Monster;
 import game.elements.Wall;
 import game.elements.monsters.Zombie;
+import game.gui.GenericTextGraphics;
 import game.userInterface.InfoBar;
 import game.util.Position;
 
@@ -47,9 +48,9 @@ public class Arena {
         this.monsters = createMonsters();
     }
 
-    public void draw(TextGraphics graphics) throws IOException {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#ECECEC"));
-        graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
+    public void draw(GenericTextGraphics graphics) throws IOException {
+        graphics.setBackgroundColor("#ECECEC");
+        graphics.fillRectangle(new Position(0, 0), width, height);
         hero.draw(graphics);
         for(Coin coin : coins){
             coin.draw(graphics);

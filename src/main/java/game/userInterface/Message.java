@@ -2,7 +2,8 @@ package game.userInterface;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
+import game.util.Position;
 
 import java.io.IOException;
 
@@ -23,8 +24,8 @@ public class Message extends InterfaceElement{
     }
 
     @Override
-    public void draw(TextGraphics graphics) throws IOException {
-        graphics.setForegroundColor(TextColor.Factory.fromString(color));
-        graphics.putString(new TerminalPosition(x, y), message);
+    public void draw(GenericTextGraphics graphics) throws IOException {
+        graphics.setForegroundColor(color);
+        graphics.putString(new Position(x,y), message);
     }
 }

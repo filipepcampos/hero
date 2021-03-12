@@ -1,9 +1,8 @@
 package game.elements;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-
 import java.io.IOException;
 
+import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 public abstract class Element {
@@ -13,7 +12,7 @@ public abstract class Element {
         position = new Position(x,y);
     }
 
-    public abstract void draw(TextGraphics graphics) throws IOException;
+    public abstract void draw(GenericTextGraphics graphics) throws IOException;
 
     public void setPosition(Position position){
         this.position = position;

@@ -1,18 +1,15 @@
 package game.elements;
 
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
 
 public class Coin extends Element {
     public Coin(int x, int y){
         super(x,y);
     }
 
-    public void draw(TextGraphics graphics){
-        graphics.setForegroundColor(TextColor.Factory.fromString("#D4AF37"));
-        graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "O");
+    public void draw(GenericTextGraphics graphics){
+        graphics.setForegroundColor("#D4AF37");
+        graphics.enableModifiers("BOLD");
+        graphics.putString(position, "O");
     }
 }

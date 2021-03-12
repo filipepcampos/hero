@@ -2,12 +2,12 @@ package game;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
+import game.gui.LanternaTextGraphics;
 
 import java.awt.*;
 import java.io.File;
@@ -60,7 +60,6 @@ public class Game {
                 switch (action){
                     case QUIT: screen.close(); quit = true;
                     case RESTART: this.arena = new Arena(40, 20, 3); break;
-                    case CONTINUE: continue;
                 }
             }
         } catch (IOException e){
@@ -70,7 +69,7 @@ public class Game {
 
     private void draw() throws IOException{
         screen.clear();
-        arena.draw(screen.newTextGraphics());
+        arena.draw(new LanternaTextGraphics(screen.newTextGraphics()));
         screen.refresh();
     }
 

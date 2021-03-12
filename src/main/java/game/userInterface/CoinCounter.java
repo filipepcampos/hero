@@ -1,8 +1,7 @@
 package game.userInterface;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
+import game.util.Position;
 
 import java.io.IOException;
 
@@ -14,10 +13,10 @@ public class CoinCounter extends InterfaceElement{
     }
 
     @Override
-    public void draw(TextGraphics graphics) throws IOException {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#D4AF37"));
+    public void draw(GenericTextGraphics graphics) throws IOException {
+        graphics.setForegroundColor("#D4AF37");
         String coinString = String.valueOf(nCoins);
-        graphics.putString(new TerminalPosition(this.x, this.y), coinString);
+        graphics.putString(new Position(this.x, this.y), coinString);
     }
 
     public void increaseNCoins(){

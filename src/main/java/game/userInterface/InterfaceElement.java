@@ -1,6 +1,7 @@
 package game.userInterface;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import game.gui.GenericTextGraphics;
 
 import java.io.IOException;
 
@@ -17,5 +18,5 @@ public abstract class InterfaceElement {
         this.height = height;
     }
 
-    public abstract void draw(TextGraphics graphics) throws IOException;
+    public abstract void draw(GenericTextGraphics graphics) throws IOException;
 }
