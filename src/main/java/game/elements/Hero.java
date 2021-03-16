@@ -19,7 +19,9 @@ public class Hero extends Element{
     }
 
     public void loseHP(){
-        hp--;
+        if(hp > 0){
+            hp--;
+        }
     }
 
     public int getHP(){

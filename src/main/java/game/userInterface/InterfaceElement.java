@@ -1,6 +1,5 @@
 package game.userInterface;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
 import game.gui.GenericTextGraphics;
 
 import java.io.IOException;
