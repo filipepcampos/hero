@@ -2,9 +2,6 @@ package game;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import game.creators.ArenaCreator;
-import game.creators.CoinCreator;
-import game.creators.MonsterCreator;
-import game.creators.WallCreator;
 import game.drawables.Drawable;
 import game.drawables.elements.Coin;
 import game.drawables.elements.Hero;
@@ -89,13 +86,11 @@ public class Arena {
     }
 
     private boolean canMove(Position position){
-        int x = position.getX();
-        int y = position.getY();
+        int x = position.getX(), y = position.getY();
         if(x>=0 && x<width && y>=0 && y<height){
-            for(Wall wall : walls){
-                if(wall.getPosition().equals(position)){
-                    return false;
-                }
+            CollisionChecker collisionChecker = new CollisionChecker();
+            if(collisionChecker.check(hero, walls)){
+                return true;
             }
             return true;
         }
@@ -118,10 +113,9 @@ public class Arena {
     }
 
     private void verifyMonsterCollision(){
-        for(Monster monster : monsters){
-            if(hero.getPosition().equals(monster.getPosition())){
-                hero.loseHP();
-            }
+        CollisionChecker collisionChecker = new CollisionChecker();
+        if(collisionChecker.check(hero, monsters)){
+            hero.loseHP();
         }
     }
 
@@ -158,7 +152,7 @@ public class Arena {
         return action;
     }
 
-    private gameAction processKey(KeyStroke key){
+    private gameAction processKey(KeyStroke key){ // TODO: This is still lanterna dependent
         switch (key.getKeyType()){
             case ArrowUp: moveHero(hero.move(gameMove.up)); break;
             case ArrowDown: moveHero(hero.move(gameMove.down)); break;
