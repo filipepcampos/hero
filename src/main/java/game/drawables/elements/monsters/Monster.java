@@ -1,10 +1,10 @@
-package game.elements.monsters;
+package game.drawables.elements.monsters;
 
-import game.elements.Element;
+import game.drawables.elements.Element;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 
-public abstract class Monster extends Element {
+public abstract class Monster extends Element{
     public Monster(int x, int y){
         super(x,y);
     }

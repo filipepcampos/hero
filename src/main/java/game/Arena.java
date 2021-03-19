@@ -1,25 +1,23 @@
 package game;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
-import game.elements.Coin;
-import game.elements.Hero;
-import game.elements.monsters.Crawler;
-import game.elements.monsters.Monster;
-import game.elements.Wall;
-import game.elements.monsters.Zombie;
-import game.gui.GenericTextGraphics;
-import game.userInterface.InfoBar;
+import game.drawables.Drawable;
+import game.drawables.elements.Coin;
+import game.drawables.elements.Element;
+import game.drawables.elements.Hero;
+import game.drawables.elements.monsters.Crawler;
+import game.drawables.elements.monsters.Monster;
+import game.drawables.elements.Wall;
+import game.drawables.elements.monsters.Zombie;
+import game.drawables.userInterface.InfoBar;
 import game.util.Position;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Arena {
     public enum gameAction{
@@ -43,25 +41,32 @@ public class Arena {
         this.height = height;
         this.hero = new Hero(10,10);
         this.infoBar = new InfoBar(0, height, width, statusBarHeight, this.hero.getHP());
-        this.walls = createWalls();
-        this.coins = createCoins();
-        this.monsters = createMonsters();
+
+        WallCreator wallCreator = new WallCreator(this);
+        this.walls = wallCreator.create();
+
+        CoinCreator coinCreator = new CoinCreator(this);
+        this.coins = coinCreator.create();
+
+        MonsterCreator monsterCreator = new MonsterCreator(this);
+        this.monsters = monsterCreator.create();
     }
 
-    public void draw(GenericTextGraphics graphics) throws IOException {
-        graphics.setBackgroundColor("#ECECEC");
-        graphics.fillRectangle(new Position(0, 0), width, height);
-        hero.draw(graphics);
-        for(Coin coin : coins){
-            coin.draw(graphics);
-        }
-        for(Monster monster : monsters){
-            monster.draw(graphics);
-        }
-        for(Wall wall : walls){
-            wall.draw(graphics);
-        }
-        infoBar.draw(graphics);
+    public List<Drawable> getDrawables() {
+        List<Drawable> drawables = Stream.of(walls, coins, monsters)
+                                        .flatMap(Collection::stream)
+                                        .collect(Collectors.toList());
+        drawables.add(hero);
+        drawables.add(infoBar);
+        return drawables;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void moveHero(Position position){
@@ -126,54 +131,12 @@ public class Arena {
         }
     }
 
-    private List<Wall> createWalls(){
-        List<Wall> walls = new ArrayList<>();
-        for(int i = 0; i < width; ++i){
-            walls.add(new Wall(i,0));
-            walls.add(new Wall(i, height-1));
-        }
-        for(int i = 1; i < height - 1; ++i){
-            walls.add(new Wall(0, i));
-            walls.add(new Wall(width-1, i));
-        }
-        return walls;
-    }
-
-    private List<Coin> createCoins(){
-        Random random = new Random();
-        ArrayList<Coin> coins = new ArrayList<>();
-        for(int i = 0; i < 5; ++i){
-            coins.add(new Coin(random.nextInt(width-2)+1, random.nextInt(height-2)+1));
-        }
-        return coins;
-    }
-
-    private Monster createMonster(Random random){
-        int x = random.nextInt(width-2)+1;
-        int y = random.nextInt(height-2)+1;
-        switch(random.nextInt(2)){
-            case 0: return new Zombie(x,y);
-            case 1: return new Crawler(x,y);
-        }
-        return new Zombie(random.nextInt(width-2)+1, random.nextInt(height-2)+1);
-    }
-
-    private List<Monster> createMonsters(){
-        Random random = new Random();
-        ArrayList<Monster> monsters = new ArrayList<>();
-        int nMonsters = random.nextInt(8)+1;
-        for(int i = 0; i < nMonsters; ++i){
-            monsters.add(createMonster(random));
-        }
-        return monsters;
-    }
-
     public gameAction processKey(KeyStroke key){
         switch (key.getKeyType()){
-            case ArrowUp: moveHero(hero.moveUp()); break;
-            case ArrowDown: moveHero(hero.moveDown()); break;
-            case ArrowLeft: moveHero(hero.moveLeft()); break;
-            case ArrowRight: moveHero(hero.moveRight()); break;
+            case ArrowUp: moveHero(hero.move(gameMove.up)); break;
+            case ArrowDown: moveHero(hero.move(gameMove.down)); break;
+            case ArrowLeft: moveHero(hero.move(gameMove.left)); break;
+            case ArrowRight: moveHero(hero.move(gameMove.right)); break;
             case Character:
                 if(key.getCharacter() == 'q'){
                     return gameAction.QUIT;

@@ -1,4 +1,4 @@
-package game.userInterface;
+package game.drawables.userInterface;
 
 import game.gui.GenericTextGraphics;
 import game.util.Position;

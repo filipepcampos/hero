@@ -1,21 +1,23 @@
-package game.elements.monsters;
+package game.drawables.elements;
 
 import game.gui.GenericTextGraphics;
+import game.util.Position;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class ZombieTest {
+public class WallTest {
     @Test
-    void move(){
-        Zombie z = new Zombie(1, 1);
-
+    void constructor(){
+        Wall w = new Wall(5, 10);
+        Assertions.assertEquals(w.getPosition(), new Position(5, 10));
     }
 
     @Test
     void draw(){
         GenericTextGraphics graphics = Mockito.mock(GenericTextGraphics.class);
-        Zombie z = new Zombie(5, 10);
-        z.draw(graphics);
+        Wall w = new Wall(5, 10);
+        w.draw(graphics);
         Mockito.verify(graphics, Mockito.times(1)).putString(Mockito.any(), Mockito.anyString());
     }
 }

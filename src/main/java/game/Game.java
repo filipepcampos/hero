@@ -18,6 +18,7 @@ import static com.googlecode.lanterna.input.KeyType.*;
 public class Game {
     private Screen screen;
     private Arena arena;
+    private ArenaDrawer drawer;
 
     public Game(){
         try {
@@ -45,6 +46,7 @@ public class Game {
             e.printStackTrace();
         }
         arena = new Arena(40, 20, 3);
+        drawer = new ArenaDrawer();
     }
 
     public void run(){
@@ -69,7 +71,7 @@ public class Game {
 
     private void draw() throws IOException{
         screen.clear();
-        arena.draw(new LanternaTextGraphics(screen.newTextGraphics()));
+        drawer.draw(arena, new LanternaTextGraphics(screen.newTextGraphics()));
         screen.refresh();
     }
 

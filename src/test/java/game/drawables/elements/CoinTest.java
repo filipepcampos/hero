@@ -1,4 +1,4 @@
-package game.elements;
+package game.drawables.elements;
 
 import game.gui.GenericTextGraphics;
 import game.util.Position;
@@ -6,18 +6,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class WallTest {
+public class CoinTest {
     @Test
     void constructor(){
-        Wall w = new Wall(5, 10);
-        Assertions.assertEquals(w.getPosition(), new Position(5, 10));
+        Coin c = new Coin(5, 10);
+        Assertions.assertEquals(c.getPosition(), new Position(5, 10));
     }
 
     @Test
     void draw(){
         GenericTextGraphics graphics = Mockito.mock(GenericTextGraphics.class);
-        Wall w = new Wall(5, 10);
-        w.draw(graphics);
+        Coin c = new Coin(5, 10);
+        c.draw(graphics);
         Mockito.verify(graphics, Mockito.times(1)).putString(Mockito.any(), Mockito.anyString());
     }
 }

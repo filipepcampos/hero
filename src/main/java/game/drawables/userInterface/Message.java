@@ -1,7 +1,5 @@
-package game.userInterface;
+package game.drawables.userInterface;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 

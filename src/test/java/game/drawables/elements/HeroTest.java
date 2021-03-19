@@ -1,5 +1,6 @@
-package game.elements;
+package game.drawables.elements;
 
+import game.gameMove;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -41,9 +42,9 @@ public class HeroTest {
     @Test
     void move(){
         Hero h = new Hero(1, 1);
-        Assertions.assertEquals(h.moveDown(), new Position(1, 2));
-        Assertions.assertEquals(h.moveUp(), new Position(1, 0));
-        Assertions.assertEquals(h.moveLeft(), new Position(0, 1));
-        Assertions.assertEquals(h.moveRight(), new Position(2, 1));
+        Assertions.assertEquals(h.move(gameMove.down), new Position(1, 2));
+        Assertions.assertEquals(h.move(gameMove.up), new Position(1, 0));
+        Assertions.assertEquals(h.move(gameMove.left), new Position(0, 1));
+        Assertions.assertEquals(h.move(gameMove.right), new Position(2, 1));
     }
 }

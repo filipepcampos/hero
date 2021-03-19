@@ -1,4 +1,4 @@
-package game.elements.monsters;
+package game.drawables.elements.monsters;
 
 import game.gui.GenericTextGraphics;
 import game.util.Position;

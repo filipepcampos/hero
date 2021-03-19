@@ -1,17 +1,20 @@
-package game.elements;
+package game.drawables.elements;
 
+import game.Controllable;
+import game.gameMove;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.io.IOException;
 
-public class Hero extends Element{
+public class Hero extends Element implements Controllable {
     int hp = 5;
 
     public Hero(int x, int y){
         super(x,y);
     }
 
+    @Override
     public void draw(GenericTextGraphics graphics) throws IOException{
         graphics.setForegroundColor("#00C5C6");
         graphics.enableModifiers("BOLD");
@@ -28,19 +31,30 @@ public class Hero extends Element{
         return hp;
     }
 
-    public Position moveUp(){
+    private Position moveUp(){
         return new Position(position.getX(), position.getY()-1);
     }
 
-    public Position moveDown(){
+    private Position moveDown(){
         return new Position(position.getX(), position.getY()+1);
     }
 
-    public Position moveLeft(){
+    private Position moveLeft(){
         return new Position(position.getX()-1, position.getY());
     }
 
-    public Position moveRight(){
+    private Position moveRight(){
         return new Position(position.getX()+1, position.getY());
+    }
+
+    @Override
+    public Position move(gameMove move) {
+        switch (move){
+            case up: return moveUp();
+            case down: return moveDown();
+            case left: return moveLeft();
+            case right: return moveRight();
+        }
+        return this.position;
     }
 }
