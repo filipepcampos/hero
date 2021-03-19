@@ -1,7 +1,7 @@
-package game;
+package game.creators;
 
+import game.Arena;
 import game.drawables.elements.Coin;
-import game.drawables.elements.Wall;
 
 import java.util.ArrayList;
 import java.util.List;

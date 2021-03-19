@@ -1,11 +1,12 @@
 package game.drawables.userInterface;
 
+import game.HealthObserver;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.io.IOException;
 
-public class HealthBar extends InterfaceElement{
+public class HealthBar extends InterfaceElement implements HealthObserver {
     private int hp;
 
     public HealthBar(int x, int y, int width, int height, int maxHP){
@@ -27,12 +28,9 @@ public class HealthBar extends InterfaceElement{
         }
     }
 
-    public void setHP(int hp){
-        this.hp = hp;
-    }
-
-    public int getHP(int hp){
-        return this.hp;
+    @Override
+    public void updateHealth(int newHp) {
+        this.hp = newHp;
     }
 }
 

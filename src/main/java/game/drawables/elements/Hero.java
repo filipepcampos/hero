@@ -1,17 +1,23 @@
 package game.drawables.elements;
 
 import game.Controllable;
+import game.HealthObserver;
+import game.HealthSubject;
 import game.gameMove;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Hero extends Element implements Controllable {
+public class Hero extends Element implements Controllable, HealthSubject {
+    List<HealthObserver> observers;
     int hp = 5;
 
     public Hero(int x, int y){
         super(x,y);
+        this.observers = new ArrayList<HealthObserver>();
     }
 
     @Override
@@ -24,6 +30,7 @@ public class Hero extends Element implements Controllable {
     public void loseHP(){
         if(hp > 0){
             hp--;
+            notifyObservers();
         }
     }
 
@@ -56,5 +63,22 @@ public class Hero extends Element implements Controllable {
             case right: return moveRight();
         }
         return this.position;
+    }
+
+    @Override
+    public void attach(HealthObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detatch(HealthObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(HealthObserver observer : observers){
+            observer.updateHealth(this.hp);
+        }
     }
 }

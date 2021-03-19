@@ -1,5 +1,6 @@
 package game.drawables.userInterface;
 
+import game.Arena;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 
@@ -12,15 +13,12 @@ public class InfoBar extends InterfaceElement {
     private boolean gameOver = false;
     private boolean won = false;
 
-    public InfoBar(int x, int y, int width, int height, int maxHP){
+    public InfoBar(int x, int y, int width, int height, Arena arena){
         super(x,y,width,height);
-        healthBar = new HealthBar(1, this.y+1, Math.min(maxHP, width-1), 1, maxHP);
+        healthBar = new HealthBar(1, this.y+1, 5, 1, 5);
+        arena.getHero().attach(healthBar);
         coinCounter = new CoinCounter(width-5, this.y+1, 4, 1);
         message = new Message(width/2-5, this.y+1, 10, 3);
-    }
-
-    public void setHP(int hp){
-        this.healthBar.setHP(hp);
     }
 
     public void increaseNumCoins(){
@@ -44,7 +42,7 @@ public class InfoBar extends InterfaceElement {
 
         if(gameOver){
             this.message.setColor("#FF0000");
-            this.message.setMessage("game.Game Over");
+            this.message.setMessage("Game Over");
             this.message.draw(graphics);
         }
         else if(won){

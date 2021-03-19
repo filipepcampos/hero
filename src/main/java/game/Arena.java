@@ -1,21 +1,20 @@
 package game;
 
 import com.googlecode.lanterna.input.KeyStroke;
+import game.creators.ArenaCreator;
+import game.creators.CoinCreator;
+import game.creators.MonsterCreator;
+import game.creators.WallCreator;
 import game.drawables.Drawable;
 import game.drawables.elements.Coin;
-import game.drawables.elements.Element;
 import game.drawables.elements.Hero;
-import game.drawables.elements.monsters.Crawler;
 import game.drawables.elements.monsters.Monster;
 import game.drawables.elements.Wall;
-import game.drawables.elements.monsters.Zombie;
 import game.drawables.userInterface.InfoBar;
 import game.util.Position;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,9 +26,9 @@ public class Arena {
     }
 
     private Hero hero;
-    private InfoBar infoBar;
-    private int width;
-    private int height;
+    final private InfoBar infoBar;
+    final private int width;
+    final private int height;
     private boolean gameOver = false;
     private boolean won = false;
     private List<Wall> walls;
@@ -40,16 +39,22 @@ public class Arena {
         this.width = width;
         this.height = height;
         this.hero = new Hero(10,10);
-        this.infoBar = new InfoBar(0, height, width, statusBarHeight, this.hero.getHP());
+        this.infoBar = new InfoBar(0, height, width, statusBarHeight, this);
 
-        WallCreator wallCreator = new WallCreator(this);
-        this.walls = wallCreator.create();
+        ArenaCreator creator = new ArenaCreator();
+        creator.create(this);
+    }
 
-        CoinCreator coinCreator = new CoinCreator(this);
-        this.coins = coinCreator.create();
+    public void setCoins(List<Coin> coins) {
+        this.coins = coins;
+    }
 
-        MonsterCreator monsterCreator = new MonsterCreator(this);
-        this.monsters = monsterCreator.create();
+    public void setWalls(List<Wall> walls) {
+        this.walls = walls;
+    }
+
+    public void setMonsters(List<Monster> monsters) {
+        this.monsters = monsters;
     }
 
     public List<Drawable> getDrawables() {
@@ -67,6 +72,10 @@ public class Arena {
 
     public int getHeight() {
         return height;
+    }
+
+    public Hero getHero() {
+        return hero;
     }
 
     public void moveHero(Position position){
@@ -123,9 +132,6 @@ public class Arena {
                 if(hero.getHP() <= 0){
                     gameOver = true;
                     this.infoBar.setGameOver(true);
-                }
-                else{
-                    this.infoBar.setHP(hero.getHP());
                 }
             }
         }

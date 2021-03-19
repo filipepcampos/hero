@@ -1,6 +1,6 @@
-package game;
+package game.creators;
 
-import game.drawables.elements.Coin;
+import game.Arena;
 import game.drawables.elements.monsters.Crawler;
 import game.drawables.elements.monsters.Monster;
 import game.drawables.elements.monsters.Zombie;
