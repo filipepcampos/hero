@@ -89,8 +89,8 @@ public class Arena {
         int x = position.getX(), y = position.getY();
         if(x>=0 && x<width && y>=0 && y<height){
             CollisionChecker collisionChecker = new CollisionChecker();
-            if(collisionChecker.check(hero, walls)){
-                return true;
+            if(collisionChecker.check(position, walls)){
+                return false;
             }
             return true;
         }
@@ -114,7 +114,7 @@ public class Arena {
 
     private void verifyMonsterCollision(){
         CollisionChecker collisionChecker = new CollisionChecker();
-        if(collisionChecker.check(hero, monsters)){
+        if(collisionChecker.check(hero.getPosition(), monsters)){
             hero.loseHP();
         }
     }
