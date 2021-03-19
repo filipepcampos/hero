@@ -19,7 +19,7 @@ public class CoinCounter extends InterfaceElement{
         graphics.putString(new Position(this.x, this.y), coinString);
     }
 
-    public void increaseNCoins(){
-        nCoins++;
+    public void increaseNCoins(int nCoins){
+        this.nCoins+=nCoins;
     }
 }

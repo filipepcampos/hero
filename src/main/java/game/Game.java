@@ -76,6 +76,6 @@ public class Game {
     }
 
     private Arena.gameAction processKey(KeyStroke key) throws IOException{
-        return arena.processKey(key);
+        return arena.step(key);
     }
 }

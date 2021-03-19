@@ -1,4 +1,4 @@
-package game;
+package game.drawables;
 
 public interface HealthSubject {
     void attach(HealthObserver observer);

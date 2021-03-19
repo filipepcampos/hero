@@ -1,6 +1,6 @@
 package game.drawables.userInterface;
 
-import game.HealthObserver;
+import game.drawables.HealthObserver;
 import game.gui.GenericTextGraphics;
 import game.util.Position;
 

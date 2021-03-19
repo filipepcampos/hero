@@ -112,32 +112,53 @@ public class Arena {
     }
 
     private void retrieveCoins(){
-        for(Coin coin : coins){
-            if(hero.getPosition().equals(coin.getPosition())){
-                coins.remove(coin);
-                this.infoBar.increaseNumCoins();
-                if(coins.size() == 0){
-                    won = true;
-                    infoBar.setWon(true);
-                }
-                break;
-            }
-        }
+        CoinRetriever coinRetriever = new CoinRetriever();
+        int nCoins = coinRetriever.retrieveCoins(this.coins, this.hero.getPosition());
+        this.infoBar.increaseNumCoins(nCoins);
     }
 
     private void verifyMonsterCollision(){
         for(Monster monster : monsters){
             if(hero.getPosition().equals(monster.getPosition())){
                 hero.loseHP();
-                if(hero.getHP() <= 0){
-                    gameOver = true;
-                    this.infoBar.setGameOver(true);
-                }
             }
         }
     }
 
-    public gameAction processKey(KeyStroke key){
+    private boolean checkGameOver(){
+        if(hero.getHpTracker().getHp() <= 0){
+            setGameOver();
+            return true;
+        }
+        return false;
+    }
+
+    private void setGameOver(){
+        gameOver = true;
+        this.infoBar.setGameOver(true);
+    }
+
+    private boolean checkWin(){
+        if(coins.size() == 0){
+            setWin();
+            return true;
+        }
+        return false;
+    }
+
+    private void setWin(){
+        won = true;
+        infoBar.setWon(true);
+    }
+
+    public gameAction step(KeyStroke key){
+        gameAction action = processKey(key);
+        checkGameOver();
+        checkWin();
+        return action;
+    }
+
+    private gameAction processKey(KeyStroke key){
         switch (key.getKeyType()){
             case ArrowUp: moveHero(hero.move(gameMove.up)); break;
             case ArrowDown: moveHero(hero.move(gameMove.down)); break;

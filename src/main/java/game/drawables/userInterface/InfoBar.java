@@ -16,13 +16,13 @@ public class InfoBar extends InterfaceElement {
     public InfoBar(int x, int y, int width, int height, Arena arena){
         super(x,y,width,height);
         healthBar = new HealthBar(1, this.y+1, 5, 1, 5);
-        arena.getHero().attach(healthBar);
+        arena.getHero().getHpTracker().attach(healthBar);
         coinCounter = new CoinCounter(width-5, this.y+1, 4, 1);
         message = new Message(width/2-5, this.y+1, 10, 3);
     }
 
-    public void increaseNumCoins(){
-        this.coinCounter.increaseNCoins();
+    public void increaseNumCoins(int nCoins){
+        this.coinCounter.increaseNCoins(nCoins);
     }
 
     public void setGameOver(boolean val){
