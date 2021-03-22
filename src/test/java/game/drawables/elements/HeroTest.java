@@ -14,7 +14,7 @@ public class HeroTest {
     void constructor(){
         Hero h = new Hero(5, 5);
 
-        Assertions.assertEquals(h.getHP(), 5);
+        Assertions.assertEquals(h.getHp(), 5);
         Assertions.assertEquals(h.getPosition(), new Position(5, 5));
     }
 
@@ -23,11 +23,11 @@ public class HeroTest {
         Hero h = new Hero(0, 0);
 
         for(int i = 5; i >= 0; i--){
-            Assertions.assertEquals(h.getHP(), i);
+            Assertions.assertEquals(h.getHp(), i);
             h.loseHP();
         }
         h.loseHP();
-        Assertions.assertEquals(h.getHP(), 0);
+        Assertions.assertEquals(h.getHp(), 0);
     }
 
     @Test

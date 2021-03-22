@@ -24,11 +24,13 @@ public class HealthTracker implements HealthSubject {
     }
 
     public void loseHp(){
-        setHp(hp-1);
+        if(hp-1 >= 0)
+            setHp(hp-1);
     }
 
     public void loseHp(int n){
-        setHp(hp-n);
+        if(hp-n >= 0)
+            setHp(hp-n);
     }
 
     public void gainHp(){
